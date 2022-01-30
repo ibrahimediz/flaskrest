@@ -1,12 +1,12 @@
 from flask import Flask
-from flask import render_template
-app = Flask(__name__)
+from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
+app = Flask(__name__)
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+migrate = Migrate(app,db)
 
 from app import routes
 
-@app.route('/')
-@app.route('/index')
-def index():
-
-    return render_template("index.html",mesaj="orkun incili")
