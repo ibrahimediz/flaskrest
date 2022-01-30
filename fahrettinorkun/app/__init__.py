@@ -9,4 +9,4 @@ from app import routes
 @app.route('/index')
 def index():
 
-    return rendr_template("index.html",mesaj="orkun incili")
+    return render_template("index.html",mesaj="orkun incili")

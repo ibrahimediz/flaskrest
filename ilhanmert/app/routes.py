@@ -4,4 +4,4 @@ from flask import render_template
 @app.route('/')
 @app.route('/index')
 def index():
-    return {"text":"merhabalar"}
+    render_template("index.html",mesaj="Selamlar")
