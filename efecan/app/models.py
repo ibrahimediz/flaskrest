@@ -11,6 +11,27 @@ class Customer(db.Model):
     accountNo_hash = db.Column(db.Integer,unique=True)
     records = db.relationship('CustomerRecords',backref='record',lazy='dynamic')
 
+    def to_dict(self):
+        data = {
+            'id':self.id,
+            'first_name':self.first_name,
+            'last_name':self.last_name,
+            'email':self.email,
+            'birth_date':self.birth_date,
+            'phone_number':self.phone_number,
+            'accountNo_hash':self.accountNo_hash
+        }
+        return data
+
+    def from_dict(self,data):
+        for field in ["first_name","last_name","email","birth_date","phone_number","accountNo_hash"]:
+            if field in data:
+                setattr(self,field,data[field])
+    @staticmethod
+    def to_collection_dict(query):
+        data = { customer.id: customer.to_dict() for customer in query}
+        return data
+
     def __repr__(self):
         return '<Customer {} {}>'.format(self.first_name,self.last_name) 
 
@@ -22,3 +43,5 @@ class CustomerRecords(db.Model):
 
     def __repr__(self):
         return '<Record {} {}>'.format(self.id,self.customer_id)
+
+    

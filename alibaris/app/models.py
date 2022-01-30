@@ -12,9 +12,27 @@ class Customer(db.Model):
     phone_num = db.Column(db.String(64))
     records = db.relationship("CustomerRecords", backref = "record", lazy = "dynamic")
 
-
     def __repr__(self):
-        return "<Customer {} {}".format(self.name, self.last_name)
+        return "<Customer {} {}>".format(self.name, self.last_name)
+    
+    def to_dict(self):
+        data = {
+            'id':self.user_id,
+            'username':self.username,
+            'name':self.name,
+            'last_name':self.last_name,
+            'email': self.email,
+        }
+
+        return data
+    
+    def from_dict(self, data):
+        for field in ['username','name','last_name','email']:
+            if field in data:
+                setattr(self, field, data[field])
+    
+    def to_collection_dict(self):
+        
 
 class CustomerRecords(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -23,5 +41,4 @@ class CustomerRecords(db.Model):
     customer_id = db.Column(db.Integer,db.ForeignKey('customer.user_id'))
 
     def __repr__(self):
-        return "<Record {} {}".format(self.id, self.customer_id)
-
+        return "<Record {} {}>".format(self.id, self.customer_id)

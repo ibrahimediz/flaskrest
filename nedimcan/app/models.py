@@ -10,6 +10,30 @@ class Customer(db.Model):
     account_no_hash = db.Column(db.Integer,unique=True,nullable=False)
     record = db.relationship('CustomerRecords', backref='record', lazy='dynamic')
 
+    def to_dict(self):
+        data = {
+            "id":self.id,
+            "name":self.name,
+            "surname":self.surname,
+            #"email":self.email
+            "username":self.username,
+            "birth_date":self.birth_date,
+            "phone_number":self.phone_number,
+            "account_no_hash":self.account_no_hash
+        }
+
+        return data
+
+    def from_dict(self,data):
+        for field in ['name','surname','username','birth_date','phone_number']:
+            if field in data:
+                setattr(self,field,data[field])
+
+    @staticmethod
+    def to_collection_dict(query):
+        data = { customer.id : customer.to_dict() for customer in query}
+        retun data
+
     def __repr__(self):
         return "<Customer {} {}>".format(self.name,self.surname)
 

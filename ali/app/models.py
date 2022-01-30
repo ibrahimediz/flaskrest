@@ -9,8 +9,23 @@ class User(db.Model):
     user_phone = db.Column(db.String(128), index=True, unique=True)
     records = db.relationship('CustomerRecord', backref='record', lazy='dynamic')
 #     user_address = db.relationship('Address', backref='user', lazy=True)
+
+    def to_dict(self):
+        data = {
+            'user_id':self.user_id,  
+            'username':self.username,
+            'email':self.email,
+            'user_phone':self.user_phone        }
+        return data
+    
+    def from_dict(self,data):
+        for field in ["user_id","username","email","user_phone","records"]:
+            if field in data:
+                setattr(self,field,data[field])        
+            
+
     def __repr__(self):
-        return '<User {} {}>'.format(self.username)
+        return '<User {} {}>'.format(self.username,self.email,self.user_phone)
 
 # class Address(db.Model):
 #     address_id = db.Column(db.Integer, primary_key=True)

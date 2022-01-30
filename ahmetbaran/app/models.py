@@ -13,6 +13,24 @@ class Customer(db.Model):
 
     records = db.relationship('CustomerRecords', backref='record', lazy='dynamic')
 
+    def to_dict(self) -> dict:
+        data = {
+            'customer_id': self.customer_id,
+            'nickname': self.nickname,
+            'name': self.name,
+            'email': self.email,
+            'age': self.age,
+            'password_hash': self.password_hash,
+            'phone_number': self.phone_number,
+            'account_no_hast': self.account_no_hast
+        }
+        return data
+    
+    def from_dict(self, data:dict):
+        for field in ['nickname', 'name' 'email', 'age', 'password_hash', 'phone_number', 'account_no_hast']:
+            if field in data:
+                setattr(self, field, data[field])
+
     def __repr__(self):
         return '<Customer {}'.format(self.name)
 

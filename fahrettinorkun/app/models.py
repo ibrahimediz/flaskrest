@@ -10,6 +10,23 @@ class Customer(db.Model):
     address = db.Column(db.String(360),nullable=False)
     records = db.relationship('CustomerRecords',backref='ref',lazy='dynamic')
 
+    def to_dict(self):
+        
+        data = {
+            'id':self.id,
+            'first_name':self.first_name,
+            'last_name':self.last_name,
+            'email':self.email,
+            'address':self.address,
+            'records':self.records
+        }
+
+        return data
+
+    def from_dict(self,data,new_customer=False):
+        for field in ['first_name','last_name',"email"]:
+            if field data:
+                setattr(self,field,data[field])
     def __repr__(self):
 
         return '<Customer {} {}'.format(self.first_name,self.last_name)
