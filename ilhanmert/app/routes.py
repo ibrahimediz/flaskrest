@@ -4,4 +4,4 @@ from flask import render_template
 @app.route('/')
 @app.route('/index')
 def index():
-    render_template("index.html",mesaj="Selamlar")
+    return render_template("index.html",mesaj="Selamlar")
